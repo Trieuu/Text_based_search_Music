@@ -1,0 +1,6 @@
+# Start with the official Elasticsearch image
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.9
+
+# Install the desired Elasticsearch plugin
+RUN elasticsearch-plugin install analysis-kuromoji
+RUN elasticsearch-plugin install analysis-icu

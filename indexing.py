@@ -1,14 +1,21 @@
+import time
+
 from elasticsearch import Elasticsearch
 
-# Connect to Elasticsearch
-es = Elasticsearch(
-    "https://localhost:9200",
-    ca_certs="F:/Text_based_search_Music/http_ca.crt",  # Replace with your certificate path
-    basic_auth=("elastic", "T-5=Edh3P*1Q*=Imo1_0")  # Replace with your credentials
-)
-
+es = None
+for _ in range(10):  # Retry up to 10 times
+    try:
+        es = Elasticsearch(hosts=["http://elasticsearch:9200"],)
+        if es.ping():
+            print("Connected to Elasticsearch")
+            break
+    except Exception as e:
+        print("Waiting for Elasticsearch...", e)
+        time.sleep(5)  # Wait for 5 seconds before retrying
+else:
+    raise ConnectionError("Elasticsearch is not available")
 # Use the recommended `.options()` method and updated syntax
-es = es.options(ignore_status=400)  # Ignore the error if the index already exists
+#es = es.options(ignore_status=400)  # Ignore the error if the index already exists
 
 # Create the index with updated mapping
 index_body = {
@@ -84,6 +91,9 @@ index_body = {
             "lyrics_ja": {
                 "type": "text",
                 "analyzer": "japanese_analyzer"
+            },
+            "official_link": {
+                "type": "keyword"  # Store URLs as exact values without tokenization
             }
         }
     }

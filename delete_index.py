@@ -2,13 +2,13 @@ import json
 from elasticsearch import Elasticsearch
 
 # Connect to Elasticsearch
+
+
 es = Elasticsearch(
     "https://localhost:9200",
-    ca_certs="C:/Users/Trieu/http_ca.crt",  # Replace with your certificate path
-    basic_auth=("elastic", "UVNup2ywxoxp6nLJN_Lp")  # Replace with your credentials
+    ca_certs="F:/Text_based_search_Music/http_ca.crt",  # Replace with your certificate path
+    basic_auth=("elastic", "T-5=Edh3P*1Q*=Imo1_0")  # Replace with your credentials
 )
-
-
 # mapping = es.indices.get_mapping(index="songs").body
 # import json
 # print(json.dumps(mapping, indent=2))
